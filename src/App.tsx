@@ -11,6 +11,8 @@ import { CssBaseline } from '@mui/material';
 import { Transaction } from './types/index';
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "./firebase";
+import { format } from 'date-fns';
+import { formatMonth } from './utils/formatting';
 
 
 function App() {
@@ -20,6 +22,11 @@ function App() {
   } 
   // 取得したデータを配列に入れる
   const [ transactions, setTransactions ] = useState<Transaction[]>([]);
+
+  // 今月のデータを取得 new Dateで今日の日付を取得
+  const [currentMonth, setCurrentMonth] = useState(new Date());
+  console.log(currentMonth);
+  format(currentMonth, "yyyy-MM");
 
   //初回レンダリングのみ、1回だけデータを取得したい。データの取得はエラーが起こるかもしれないからtry-catchで。
   useEffect(() => {
@@ -50,6 +57,11 @@ function App() {
   fetchTransactions();
   }, []);
 
+  // 同じ月のデータをフィルタリング
+  const monthlyTransactions = transactions.filter((transaction) => {
+    return transaction.date.startsWith(formatMonth(currentMonth))
+  });
+  // console.log(monthlyTransactions);
 
   return (
     <ThemeProvider theme={theme}>
@@ -58,7 +70,7 @@ function App() {
     <Router>
       <Routes>
         <Route path='/' element={<AppLayout />}>
-          <Route index element={<Home />} />
+          <Route index element={<Home monthlyTransactions={monthlyTransactions} />} />
           <Route path="/report" element={<Report />} />
           <Route path="*" element={<NoMatch />} />
         </Route>
