@@ -9,7 +9,7 @@ import { theme } from './theme/theme';
 import { ThemeProvider } from '@emotion/react';
 import { CssBaseline } from '@mui/material';
 import { Transaction } from './types/index';
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import { db } from "./firebase";
 
 
@@ -39,9 +39,9 @@ function App() {
     } catch (error) {
       // 通常のエラーか、Firestoreのエラーか判断
       if(isFireStoreError(error)) {
-        console.error(error)
-        console.error(error.message)
-        console.error(error.code)
+        console.error("firebaseのエラーは", error)
+        console.error("firebaseのエラーは", error.message)
+        console.error("firebaseのエラーは", error.code)
       } else {
         console.error("一般的なエラーは", error)
       }
