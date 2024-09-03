@@ -8,7 +8,8 @@ const Calender = () => {
     const events = [
         { title: 'Meeting', start: new Date() },
     ]; 
-    const renderEventContnt = (eventInfo: EventContentArg) => {
+    const renderEventContent = (eventInfo: EventContentArg) => {
+        console.log(eventInfo);
         return (
             <div>
                 <div className='money' id='event-income'>
@@ -32,7 +33,7 @@ const Calender = () => {
             initialView='dayGridMonth'
             locale={jaLocale}
             events={events}
-            eventContent={renderEventContnt}
+            eventContent={renderEventContent}
         />
     );
 };
