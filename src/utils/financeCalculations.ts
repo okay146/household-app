@@ -18,3 +18,27 @@ export function financeCalculations(transactions: Transaction[]): Balance{
         return acc;
     }, {income:0, expense: 0, balance: 0})
 }
+
+// 日付ごとの収支を計算する関数
+export function calculateDailyBalance(transactions: Transaction[]):Record<string, Balance> {
+    // accには初期値、
+    return transactions.reduce<Record<string, Balance>>((acc, transaction) => {
+        // 現状の日付の情報をdayに代入
+        const day = transaction.date;
+        if(!acc[day]) { 
+            acc[day] = {income: 0, expense: 0, balance: 0}
+        }
+        
+        if(transaction.type === "income") {
+            // 収入の場合
+            acc[day].income  += transaction.amount
+        } else {
+            // 支出の場合
+            acc[day].expense  += transaction.amount
+        }
+        // 残高
+        acc[day].balance = acc[day].income - acc[day].expense
+
+        return acc
+    }, {})
+}
