@@ -19,6 +19,10 @@ const Home = ({monthlyTransactions, setCurrentMonth}: HomeProps) => {
     const today = format(new Date(), "yyyy-MM-dd");
     const [currentDay, setCurrentDay] = useState(today);
 
+    // 選択した日付のデータのみ取得
+    const dailyTransactions = monthlyTransactions.filter((transaction) => {
+        return transaction.date === currentDay;
+    });
 
     return (
         <Box sx={{display: "flex"}}>
