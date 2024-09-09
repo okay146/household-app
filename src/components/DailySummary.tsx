@@ -17,17 +17,16 @@ const DailySummary = () => {
         {/* 収入 */}
         <Grid item xs={6} display={"flex"}>
             <Card
-            sx={{ bgcolor: (theme) => theme.palette.grey[100], flexGrow: 1 }}
+                sx={{ bgcolor: (theme) => theme.palette.grey[100], flexGrow: 1 }}
             >
             <CardContent>
                 <Typography variant="body2" noWrap textAlign="center">
                 収入
                 </Typography>
                 <Typography
-                    color={(theme) => theme.palette.incomeColor.main}
+                    sx={{ color: (theme) => theme.palette.incomeColor.main, wordBreak: "break-all" }}
                     textAlign="right"
                     fontWeight="fontWeightBold"
-                    sx={{ wordBreak: "break-all" }}
                 >
                 ¥500
                 </Typography>
@@ -44,10 +43,9 @@ const DailySummary = () => {
                 支出
                 </Typography>
                 <Typography
-                    color={(theme) => theme.palette.expenseColor.main}
+                    sx={{ color: (theme) => theme.palette.expenseColor.main, wordBreak: "break-all" }}
                     textAlign="right"
                     fontWeight="fontWeightBold"
-                    sx={{ wordBreak: "break-all" }}
                 >
                 ¥300
                 </Typography>
@@ -64,10 +62,9 @@ const DailySummary = () => {
                 残高
                 </Typography>
                 <Typography
-                    color={(theme) => theme.palette.balanceColor.main}
                     textAlign="right"
                     fontWeight="fontWeightBold"
-                    sx={{ wordBreak: "break-all" }}
+                    sx={{ color: (theme) => theme.palette.balanceColor.main, wordBreak: "break-all" }}
                 >
                 ¥200
                 </Typography>
