@@ -19,6 +19,7 @@ import FastfoodIcon from "@mui/icons-material/Fastfood";
 import DailySummary from "./DailySummary";
 import { Transaction } from "../types";
 import { formatCurrency } from "../utils/formatting";
+import IconComponents from "./common/IconComponents";
 
 
 interface TransactionMenuProps {
@@ -90,7 +91,7 @@ const TransactionMenu = (
                             >
                             <Grid item xs={1}>
                                 {/* icon */}
-                                <FastfoodIcon />
+                                {IconComponents[transaction.category]}
                             </Grid>
                             <Grid item xs={2.5}>
                                 <Typography
