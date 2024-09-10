@@ -18,6 +18,7 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import FastfoodIcon from "@mui/icons-material/Fastfood";
 import DailySummary from "./DailySummary";
 import { Transaction } from "../types";
+import { formatCurrency } from "../utils/formatting";
 
 
 interface TransactionMenuProps {
@@ -68,57 +69,64 @@ const TransactionMenu = (
         <Box sx={{ flexGrow: 1, overflowY: "auto" }}>
             <List aria-label="取引履歴">
             <Stack spacing={2}>
-                <ListItem disablePadding>
-                <Card
-                    sx={{
-                    width: "100%",
-                    backgroundColor: (theme) =>
-                        theme.palette.expenseColor.light,
-                    }}
-                >
-                    <CardActionArea>
-                    <CardContent>
-                        <Grid
-                        container
-                        spacing={1}
-                        alignItems="center"
-                        wrap="wrap"
-                        >
-                        <Grid item xs={1}>
-                            {/* icon */}
-                            <FastfoodIcon />
-                        </Grid>
-                        <Grid item xs={2.5}>
-                            <Typography
-                            variant="caption"
-                            display="block"
-                            gutterBottom
+                {/* 選択した日付の取引情報が入っているdailyTransactionsをmap関数で展開 */}
+                {dailyTransactions.map((transaction) => (
+                    <ListItem disablePadding>
+                    <Card
+                        sx={{
+                        width: "100%",
+                        backgroundColor: (theme) =>
+                            theme.palette.expenseColor.light,
+                        }}
+                    >
+                        <CardActionArea>
+                        <CardContent>
+                            <Grid
+                            container
+                            spacing={1}
+                            alignItems="center"
+                            wrap="wrap"
                             >
-                            食費
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={4}>
-                            <Typography variant="body2" gutterBottom>
-                            卵
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={4.5}>
-                            <Typography
-                            gutterBottom
-                            textAlign={"right"}
-                            color="text.secondary"
-                            sx={{
-                                wordBreak: "break-all",
-                            }}
-                            >
-                            ¥300
-                            </Typography>
-                        </Grid>
-                        </Grid>
-                    </CardContent>
-                    </CardActionArea>
-                </Card>
-                </ListItem>
+                            <Grid item xs={1}>
+                                {/* icon */}
+                                <FastfoodIcon />
+                            </Grid>
+                            <Grid item xs={2.5}>
+                                <Typography
+                                variant="caption"
+                                display="block"
+                                gutterBottom
+                                >
+                                {/* 「食費」などのカテゴリ */}
+                                {transaction.category}
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={4}>
+                                <Typography variant="body2" gutterBottom>
+                                    {/* 「卵」などの内容 */}
+                                    {transaction.content}
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={4.5}>
+                                <Typography
+                                gutterBottom
+                                textAlign={"right"}
+                                color="text.secondary"
+                                sx={{
+                                    wordBreak: "break-all",
+                                }}
+                                >
+                                {/* 1000円単位で表示するためにformatCurrencyを利用 */}
+                                ¥{formatCurrency(transaction.amount)}
+                                </Typography>
+                            </Grid>
+                            </Grid>
+                        </CardContent>
+                        </CardActionArea>
+                    </Card>
+                    </ListItem>
+                ))}
+                
             </Stack>
             </List>
         </Box>
