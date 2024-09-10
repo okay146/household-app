@@ -7,10 +7,15 @@ import { theme } from "../theme/theme";
 
 interface DailySummaryProps {
     dailyTransactions: Transaction[];
-    columns: number;
+    // columns: number;
 }
 
-const DailySummary = () => {
+const DailySummary = (
+    {dailyTransactions}: DailySummaryProps
+) => {
+    // financeCalculationsは計算する関数。そこにデータを渡して、変数に入れる
+    const {income, expense, balance} = financeCalculations(dailyTransactions)
+
     return (
     <Box>
         <Grid container spacing={2}>
@@ -28,7 +33,8 @@ const DailySummary = () => {
                     textAlign="right"
                     fontWeight="fontWeightBold"
                 >
-                ¥500
+                {/* 1000円単位で表示するからformatCurrency */}
+                ¥{formatCurrency(income)}
                 </Typography>
             </CardContent>
             </Card>
@@ -47,7 +53,7 @@ const DailySummary = () => {
                     textAlign="right"
                     fontWeight="fontWeightBold"
                 >
-                ¥300
+                ¥{formatCurrency(expense)}
                 </Typography>
             </CardContent>
             </Card>
@@ -66,7 +72,7 @@ const DailySummary = () => {
                     fontWeight="fontWeightBold"
                     sx={{ color: (theme) => theme.palette.balanceColor.main, wordBreak: "break-all" }}
                 >
-                ¥200
+                ¥{formatCurrency(balance)}
                 </Typography>
             </CardContent>
             </Card>

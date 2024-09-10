@@ -46,7 +46,8 @@ const TransactionMenu = (
     >
         <Stack sx={{ height: "100%" }} spacing={2}>
         <Typography fontWeight={"fontWeightBold"}>日時： {currentDay}</Typography>
-        <DailySummary />
+        {/* 取引額をプロップスで渡す */}
+        <DailySummary dailyTransactions={dailyTransactions} />
         {/* 内訳タイトル&内訳追加ボタン */}
         <Box
             sx={{
