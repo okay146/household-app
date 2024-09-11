@@ -16,6 +16,7 @@ interface CalendarProps {
     setCurrentMonth: React.Dispatch<React.SetStateAction<Date>>,
     setCurrentDay: React.Dispatch<React.SetStateAction<string>>;
     currentDay: string;
+    today: string;
 }
 
 const Calender = (
@@ -23,7 +24,8 @@ const Calender = (
         monthlyTransactions, 
         setCurrentMonth, 
         setCurrentDay, 
-        currentDay
+        currentDay,
+        today,
     }: CalendarProps) => {
 
 
@@ -73,8 +75,12 @@ const Calender = (
 
     const calendarEvents =  (createCalendarEvents(daylyBalances));
 
+
+    // 月の日付取得
     const handleDateSet = (datesetInfo: DatesSetArg) => {
         setCurrentMonth(datesetInfo.view.currentStart)
+        // 日付のデータを取得
+        setCurrentDay(today);
     }
 
     // 日付を選択したときに発火
