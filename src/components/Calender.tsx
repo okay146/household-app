@@ -26,9 +26,6 @@ const Calender = (
         currentDay
     }: CalendarProps) => {
 
-    const events = [
-        { title: 'Meeting', start: "2024-09-16", income: 300, expense: 200, balance: 100 },
-    ];
 
     const theme = useTheme();
 
