@@ -24,6 +24,12 @@ const Home = ({monthlyTransactions, setCurrentMonth}: HomeProps) => {
         return transaction.date === currentDay;
     });
 
+    // 開閉状態を管理する
+    const [isEntryDrawerOpen, setIsEntryDrawerOpen] = useState(false);
+    const closeForm = () => {
+        setIsEntryDrawerOpen(!isEntryDrawerOpen);
+    }
+
     return (
         <Box sx={{display: "flex"}}>
             {/* 左側コンテンツ */}
@@ -39,8 +45,13 @@ const Home = ({monthlyTransactions, setCurrentMonth}: HomeProps) => {
             </Box>
             {/* 右側コンテンツ */}
             <Box>
-                <TransactionMenu dailyTransactions={dailyTransactions} currentDay={currentDay} />
-                <TransactionForm />
+                <TransactionMenu 
+                    dailyTransactions={dailyTransactions} currentDay={currentDay} 
+                />
+                <TransactionForm 
+                    onCloseForm={closeForm}
+                    isEntryDrawerOpen={isEntryDrawerOpen}
+                />
             </Box>
         </Box>
     )
