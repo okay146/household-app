@@ -83,13 +83,12 @@ const Calender = (
         setCurrentMonth(currentMonth);
         // 今月のデータも含めて取得
         const todayDate = new Date();
-        // 日付のデータを取得
-        setCurrentDay(today);
 
         // currentMonthが今月の場合のみ今日の日付を取得
         // todayDateには今月の情報、currentMonthは現在表示中の月
         if(isSameMonth(todayDate, currentMonth)) {
-            // 現在表示中の月が今月の場合true。今日の日付を取得
+            // 現在表示中の月が今月の場合true。
+            // 「今日」ボタンを押した時のみ今日の日付を取得
             setCurrentDay(today);
         }
     }
