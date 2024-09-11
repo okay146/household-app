@@ -9,6 +9,7 @@ import { formatCurrency } from '../utils/formatting';
 import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
 import { Palette } from '@mui/icons-material';
 import { useTheme } from '@mui/material';
+import { isSameMonth } from 'date-fns';
 
 
 interface CalendarProps {
@@ -78,9 +79,19 @@ const Calender = (
 
     // 月の日付取得
     const handleDateSet = (datesetInfo: DatesSetArg) => {
-        setCurrentMonth(datesetInfo.view.currentStart)
+        const currentMonth = datesetInfo.view.currentStart;
+        setCurrentMonth(currentMonth);
+        // 今月のデータも含めて取得
+        const todayDate = new Date();
         // 日付のデータを取得
         setCurrentDay(today);
+
+        // currentMonthが今月の場合のみ今日の日付を取得
+        // todayDateには今月の情報、currentMonthは現在表示中の月
+        if(isSameMonth(todayDate, currentMonth)) {
+            // 現在表示中の月が今月の場合true。今日の日付を取得
+            setCurrentDay(today);
+        }
     }
 
     // 日付を選択したときに発火
