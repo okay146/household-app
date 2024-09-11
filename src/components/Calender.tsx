@@ -13,15 +13,29 @@ interface CalendarProps {
     monthlyTransactions: Transaction[],
     setCurrentMonth: React.Dispatch<React.SetStateAction<Date>>,
     setCurrentDay: React.Dispatch<React.SetStateAction<string>>;
+    currentDay: string;
 }
 
 const Calender = (
-    {monthlyTransactions, setCurrentMonth, setCurrentDay}: CalendarProps) => {
+    {
+        monthlyTransactions, 
+        setCurrentMonth, 
+        setCurrentDay, 
+        currentDay
+    }: CalendarProps) => {
+
     const events = [
         { title: 'Meeting', start: "2024-09-16", income: 300, expense: 200, balance: 100 },
     ];
 
     const daylyBalances = calculateDailyBalance(monthlyTransactions)
+
+    // 選択した日付に背景色をつける
+    const backgroundEvent = {
+        start: currentDay, // 選択した日付
+        display: "background",
+        backgroundColor: "red",
+    }
 
     const renderEventContent = (eventInfo: EventContentArg) => {
         console.log(eventInfo);
@@ -73,7 +87,7 @@ const Calender = (
             plugins={[dayGridPlugin, interactionPlugin]}
             initialView='dayGridMonth'
             locale={jaLocale}
-            events={calendarEvents}
+            events={[...calendarEvents, backgroundEvent]}
             eventContent={renderEventContent}
             datesSet={handleDateSet}
             dateClick={handleDateClick}
