@@ -7,6 +7,8 @@ import { Balance, CalendarContent, Transaction } from '../types';
 import { calculateDailyBalance } from '../utils/financeCalculations';
 import { formatCurrency } from '../utils/formatting';
 import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
+import { Palette } from '@mui/icons-material';
+import { useTheme } from '@mui/material';
 
 
 interface CalendarProps {
@@ -28,13 +30,15 @@ const Calender = (
         { title: 'Meeting', start: "2024-09-16", income: 300, expense: 200, balance: 100 },
     ];
 
+    const theme = useTheme();
+
     const daylyBalances = calculateDailyBalance(monthlyTransactions)
 
     // 選択した日付に背景色をつける
     const backgroundEvent = {
         start: currentDay, // 選択した日付
         display: "background",
-        backgroundColor: "red",
+        backgroundColor: theme.palette.incomeColor.light,
     }
 
     const renderEventContent = (eventInfo: EventContentArg) => {
