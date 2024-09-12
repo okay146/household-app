@@ -17,11 +17,20 @@ import { Controller, useForm } from "react-hook-form";
 interface TransactionFormProps {
     onCloseForm: () => void;
     isEntryDrawerOpen: boolean;
+    currentDay: string;
 }
 
-const TransactionForm = ({onCloseForm, isEntryDrawerOpen}: TransactionFormProps) => {
+const TransactionForm = ({onCloseForm, isEntryDrawerOpen, currentDay}: TransactionFormProps) => {
     const formWidth = 320;
-    const { control } = useForm();
+    const { control } = useForm({
+        defaultValues: {
+            type: "expense",
+            date: currentDay,
+            amount: 0,
+            category: "",
+            content: "",
+        }
+    });
 
     return (
         <Box
