@@ -90,14 +90,26 @@ const TransactionForm = ({onCloseForm, isEntryDrawerOpen}: TransactionFormProps)
             />
 
             {/* カテゴリ */}
-            <TextField id="カテゴリ" label="カテゴリ" select value={"食費"}>
-                <MenuItem value={"食費"}>
-                <ListItemIcon>
-                    <FastfoodIcon />
-                </ListItemIcon>
-                食費
-                </MenuItem>
-            </TextField>
+            <Controller 
+                control={control}
+                name="category"
+                render={({field}) => (
+                <TextField 
+                    {...field} 
+                    id="カテゴリ" 
+                    label="カテゴリ" 
+                    select 
+                >
+                    <MenuItem value={"食費"}>
+                    <ListItemIcon>
+                        <FastfoodIcon />
+                    </ListItemIcon>
+                    食費
+                    </MenuItem>
+                </TextField>
+                )}
+            />
+            
             {/* 金額 */}
             <TextField label="金額" type="number" />
             {/* 内容 */}
