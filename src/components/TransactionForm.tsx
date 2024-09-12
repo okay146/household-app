@@ -12,6 +12,7 @@ import {
 import React from "react";
 import CloseIcon from "@mui/icons-material/Close"; // 閉じるボタン用のアイコン
 import FastfoodIcon from "@mui/icons-material/Fastfood"; //食事アイコン
+import { Controller, useForm } from "react-hook-form";
 
 interface TransactionFormProps {
     onCloseForm: () => void;
@@ -19,7 +20,9 @@ interface TransactionFormProps {
 }
 
 const TransactionForm = ({onCloseForm, isEntryDrawerOpen}: TransactionFormProps) => {
-const formWidth = 320;
+    const formWidth = 320;
+    const { control } = useForm();
+
     return (
         <Box
         sx={{
@@ -57,20 +60,35 @@ const formWidth = 320;
         <Box component={"form"}>
             <Stack spacing={2}>
             {/* 収支切り替えボタン */}
-            <ButtonGroup fullWidth>
-                <Button variant={"contained"} color="error">
-                支出
-                </Button>
-                <Button>収入</Button>
-            </ButtonGroup>
-            {/* 日付 */}
-            <TextField
-                label="日付"
-                type="date"
-                InputLabelProps={{
-                shrink: true,
-                }}
+            <Controller 
+                name="type"
+                control={control}
+                render={({field}) => (
+                // 実際に描画する要素を指定
+                <ButtonGroup fullWidth>
+                    <Button variant={"contained"} color="error">
+                    支出
+                    </Button>
+                    <Button>収入</Button>
+                </ButtonGroup>
+                )}
             />
+            {/* 日付 */}
+            <Controller 
+                control={control}
+                name="date"
+                render={({field})=> (
+                    <TextField
+                        {...field}
+                        label="日付"
+                        type="date"
+                        InputLabelProps={{
+                        shrink: true,
+                        }}
+                    />
+                )}
+            />
+
             {/* カテゴリ */}
             <TextField id="カテゴリ" label="カテゴリ" select value={"食費"}>
                 <MenuItem value={"食費"}>
