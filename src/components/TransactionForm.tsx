@@ -111,9 +111,29 @@ const TransactionForm = ({onCloseForm, isEntryDrawerOpen}: TransactionFormProps)
             />
             
             {/* 金額 */}
-            <TextField label="金額" type="number" />
+            <Controller 
+                control={control}
+                name="amount"
+                render={({field}) => (
+                    <TextField 
+                        label="金額" 
+                        type="number" 
+                        {...field}
+                    />
+                )}
+            />
             {/* 内容 */}
-            <TextField label="内容" type="text" />
+            <Controller 
+                control={control}
+                name="content"
+                render={({field}) => (
+                    <TextField 
+                        label="内容" 
+                        type="text" 
+                        {...field}
+                    />
+                )}
+            />
             {/* 保存ボタン */}
             <Button type="submit" variant="contained" color={"primary"} fullWidth>
                 保存
