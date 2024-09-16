@@ -77,8 +77,15 @@ const TransactionForm = ({onCloseForm, isEntryDrawerOpen, currentDay}: Transacti
         // typeに対して値をセットしたいから引数にtypeを指定。
         setValue("type", type);
     };
-    // 保存ボタン切り替えに使用。収支タイプを
+    // 保存ボタン切り替えに使用。収支タイプを監視
     const currentType = watch("type");
+
+    // 収支によって表示するカテゴリを変更。
+    // カレントタイプが切り替わるごとにそれに応じたカテゴリを入れる定数を用意する
+    useEffect(() => {
+        const newCategories = currentType === "expense" ? expenseCategories : incomeCategories;
+    }, [currentType]);
+    
 
     // 選択した日付に変更
     // 日付を変更したときに処理を実行したいからuseEffectで。
