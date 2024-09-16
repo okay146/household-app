@@ -9,7 +9,7 @@ import {
     TextField,
     Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import CloseIcon from "@mui/icons-material/Close"; // 閉じるボタン用のアイコン
 import FastfoodIcon from "@mui/icons-material/Fastfood"; //食事アイコン
 import { Controller, useForm } from "react-hook-form";
@@ -23,7 +23,7 @@ type IncomeExpense = "income" | "expense";
 
 const TransactionForm = ({onCloseForm, isEntryDrawerOpen, currentDay}: TransactionFormProps) => {
     const formWidth = 320;
-    const { control, setValue } = useForm({
+    const { control, setValue, watch } = useForm({
         defaultValues: {
             type: "expense",
             date: currentDay,
@@ -36,7 +36,15 @@ const TransactionForm = ({onCloseForm, isEntryDrawerOpen, currentDay}: Transacti
         // フィールドオブジェクトのvalueに値をセット→setValueを使う
         // typeに対して値をセットしたいから引数にtypeを指定。
         setValue("type", type);
-    }
+    };
+    // 保存ボタン切り替えに使用。収支タイプを
+    const currentType = watch("type");
+
+    // 選択した日付に変更
+    // 日付を変更したときに処理を実行したいからuseEffectで。
+    useEffect(() => {
+        setValue("date", currentDay);
+    }, [currentDay]);
 
     return (
         <Box
@@ -162,7 +170,12 @@ const TransactionForm = ({onCloseForm, isEntryDrawerOpen, currentDay}: Transacti
                 )}
             />
             {/* 保存ボタン */}
-            <Button type="submit" variant="contained" color={"primary"} fullWidth>
+            <Button 
+                type="submit" 
+                variant="contained" 
+                color={currentType === "expense" ? "error" : "primary"} 
+                fullWidth
+            >
                 保存
             </Button>
             </Stack>
