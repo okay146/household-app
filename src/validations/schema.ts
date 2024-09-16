@@ -18,3 +18,6 @@ export const transactionSchema = z.object({
         z.literal(""), // 空文字が万が一送られた場合バリデーションチェックしたいから
     ]).refine((val) => val !== "", {message: "カテゴリを選択してください"}),
 });
+
+// スキーマに基づいたタイプスクリプトの型を生成
+export type Schema = z.infer<typeof transactionSchema>
