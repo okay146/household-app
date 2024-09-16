@@ -9,6 +9,8 @@ import AlarmIcon from '@mui/icons-material/Alarm';
 import WorkIcon from '@mui/icons-material/Work';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 import SavingsIcon from '@mui/icons-material/Savings';
+import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
+import AccessibilityIcon from '@mui/icons-material/Accessibility';
 
 // オブジェクトの中のキーと値の型を定義するからRecordを利用
 // キーにはカテゴリ名で、「食費」はすでに別で定義しているからインポート。値となるアイコンはReactのコンポーネントやからJSX.Element。<キー、値>
@@ -22,6 +24,8 @@ const IconComponents: Record<incomeCategory | expenseCategory, JSX.Element > = {
     給与: <WorkIcon fontSize='small' />,
     副収入: <AddBusinessIcon fontSize='small' />,
     お小遣い: <SavingsIcon fontSize='small' />,
+    病院: <LocalHospitalIcon fontSize='small' />,
+    その他: <AccessibilityIcon fontSize='small' />,
 }
 
 export default IconComponents

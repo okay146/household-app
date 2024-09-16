@@ -54,7 +54,7 @@ const drawerWidth = 240;
                 <MenuIcon />
             </IconButton>
             <Typography variant="h6" noWrap component="div">
-                家計簿アプリ
+                ケンタ通帳管理
             </Typography>
             </Toolbar>
         </AppBar>
