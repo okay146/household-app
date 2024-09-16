@@ -84,6 +84,7 @@ const TransactionForm = ({onCloseForm, isEntryDrawerOpen, currentDay}: Transacti
     // カレントタイプが切り替わるごとにそれに応じたカテゴリを入れる定数を用意する
     useEffect(() => {
         const newCategories = currentType === "expense" ? expenseCategories : incomeCategories;
+        setCategories(newCategories);
     }, [currentType]);
     
 
