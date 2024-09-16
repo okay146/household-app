@@ -208,7 +208,7 @@ const TransactionForm = ({onCloseForm, isEntryDrawerOpen, currentDay}: Transacti
                             value={field.value === 0 ? "" : field.value}
                             // 入力された値を数値として扱う
                             onChange={(e) => {
-                                const newValue = parseInt(e.target.value) || 0;
+                                const newValue = parseInt(e.target.value, 10) || 0;
                                 field.onChange(newValue);
                             }}
                         />
