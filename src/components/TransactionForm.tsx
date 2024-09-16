@@ -202,11 +202,16 @@ const TransactionForm = ({onCloseForm, isEntryDrawerOpen, currentDay}: Transacti
                 render={({field}) => {
                     return (
                         <TextField 
-                        label="金額" 
-                        type="number" 
-                        {...field}
-                        value={field.value === 0 ? "" : field.value}
-                    />
+                            label="金額" 
+                            type="number" 
+                            {...field}
+                            value={field.value === 0 ? "" : field.value}
+                            // 入力された値を数値として扱う
+                            onChange={(e) => {
+                                const newValue = parseInt(e.target.value);
+                                field.onChange(newValue);
+                            }}
+                        />
                     )}
                 }
             />
