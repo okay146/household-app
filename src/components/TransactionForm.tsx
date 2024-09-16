@@ -9,10 +9,22 @@ import {
     TextField,
     Typography,
 } from "@mui/material";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import CloseIcon from "@mui/icons-material/Close"; // 閉じるボタン用のアイコン
 import FastfoodIcon from "@mui/icons-material/Fastfood"; //食事アイコン
 import { Controller, useForm } from "react-hook-form";
+import {IncomeCategory, ExpenseCategory} from "../types/index";
+import HomeIcon from '@mui/icons-material/Home';
+import TrainIcon from '@mui/icons-material/Train';
+import Diversity3Icon from '@mui/icons-material/Diversity3';
+import SportsTennisIcon from '@mui/icons-material/SportsTennis';
+import AlarmIcon from '@mui/icons-material/Alarm';
+import WorkIcon from '@mui/icons-material/Work';
+import AddBusinessIcon from '@mui/icons-material/AddBusiness';
+import SavingsIcon from '@mui/icons-material/Savings';
+import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
+import AccessibilityIcon from '@mui/icons-material/Accessibility';
+
 
 interface TransactionFormProps {
     onCloseForm: () => void;
@@ -21,8 +33,36 @@ interface TransactionFormProps {
 }
 type IncomeExpense = "income" | "expense";
 
+interface CategoryItem {
+    label: IncomeCategory | ExpenseCategory;
+    icon: JSX.Element;
+}
+
 const TransactionForm = ({onCloseForm, isEntryDrawerOpen, currentDay}: TransactionFormProps) => {
     const formWidth = 320;
+
+    // 支出用カテゴリ
+    const expenseCategories: CategoryItem[] = [
+        {label: "食費", icon: <FastfoodIcon fontSize="small" />},
+        {label: "日用品", icon: <AlarmIcon fontSize="small" />},
+        {label: "住居費", icon: <HomeIcon fontSize="small" />},
+        {label: "交際費", icon: <Diversity3Icon fontSize="small" />},
+        {label: "娯楽", icon: <SportsTennisIcon fontSize="small" />},
+        {label: "交通費", icon: <TrainIcon fontSize="small" />},
+        {label: "病院", icon: <LocalHospitalIcon fontSize="small" />},
+        {label: "その他", icon: <AccessibilityIcon fontSize="small" />},
+    ];
+
+    // 収入用カテゴリ
+    const incomeCategories: CategoryItem[] = [
+        {label: "給与", icon: <WorkIcon fontSize='small' />},
+        {label: "副収入", icon: <AddBusinessIcon fontSize='small' />},
+        {label: "お小遣い", icon: <SavingsIcon fontSize='small' />},
+    ];
+
+    // カテゴリをステートで管理。デフォルトは支出用で。
+    const [categories, setCategories] = useState(expenseCategories);
+
     const { control, setValue, watch } = useForm({
         defaultValues: {
             type: "expense",
@@ -135,12 +175,14 @@ const TransactionForm = ({onCloseForm, isEntryDrawerOpen, currentDay}: Transacti
                     label="カテゴリ" 
                     select 
                 >
-                    <MenuItem value={"食費"}>
-                    <ListItemIcon>
-                        <FastfoodIcon />
-                    </ListItemIcon>
-                    食費
-                    </MenuItem>
+                    {categories.map((category) => (
+                        <MenuItem value={category.label}>
+                        <ListItemIcon>
+                            {category.icon}
+                        </ListItemIcon>
+                            {category.label}
+                        </MenuItem>
+                    ))}
                 </TextField>
                 )}
             />
