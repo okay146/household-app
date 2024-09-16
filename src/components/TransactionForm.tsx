@@ -19,18 +19,24 @@ interface TransactionFormProps {
     isEntryDrawerOpen: boolean;
     currentDay: string;
 }
+type IncomeExpense = "income" | "expense";
 
 const TransactionForm = ({onCloseForm, isEntryDrawerOpen, currentDay}: TransactionFormProps) => {
     const formWidth = 320;
-    const { control } = useForm({
+    const { control, setValue } = useForm({
         defaultValues: {
             type: "expense",
             date: currentDay,
             amount: 0,
             category: "",
             content: "",
-        }
+        },
     });
+    const incomeExpenseToggle = (type: IncomeExpense) => {
+        // フィールドオブジェクトのvalueに値をセット→setValueを使う
+        // typeに対して値をセットしたいから引数にtypeを指定。
+        setValue("type", type);
+    }
 
     return (
         <Box
@@ -72,15 +78,27 @@ const TransactionForm = ({onCloseForm, isEntryDrawerOpen, currentDay}: Transacti
             <Controller 
                 name="type"
                 control={control}
-                render={({field}) => (
-                // 実際に描画する要素を指定
-                <ButtonGroup fullWidth>
-                    <Button variant={"contained"} color="error">
-                    支出
-                    </Button>
-                    <Button>収入</Button>
-                </ButtonGroup>
-                )}
+                render={({field}) => {
+                    return (
+                        // 実際に描画する要素を指定
+                        <ButtonGroup fullWidth>
+                            <Button 
+                                // expenseがtrueの場合contained。
+                                variant={field.value === "expense" ? "contained" : "outlined"} 
+                                color="error" 
+                                onClick={() => {incomeExpenseToggle("expense")}}>  
+                            支出
+                            </Button>
+                            <Button 
+                                // incomeがtrueの場合contained。
+                                variant={field.value === "income" ? "contained" : "outlined"} 
+                                onClick={() => {incomeExpenseToggle("income")}}
+                            >
+                                収入
+                            </Button>
+                        </ButtonGroup>
+                    )
+                }}
             />
             {/* 日付 */}
             <Controller 
