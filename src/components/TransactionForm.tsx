@@ -199,13 +199,16 @@ const TransactionForm = ({onCloseForm, isEntryDrawerOpen, currentDay}: Transacti
             <Controller 
                 control={control}
                 name="amount"
-                render={({field}) => (
-                    <TextField 
+                render={({field}) => {
+                    return (
+                        <TextField 
                         label="金額" 
                         type="number" 
                         {...field}
+                        value={field.value === 0 ? "" : field.value}
                     />
-                )}
+                    )}
+                }
             />
             {/* 内容 */}
             <Controller 
