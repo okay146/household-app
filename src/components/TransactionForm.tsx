@@ -24,6 +24,8 @@ import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 import SavingsIcon from '@mui/icons-material/Savings';
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 import AccessibilityIcon from '@mui/icons-material/Accessibility';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { transactionSchema } from "../validations/schema";
 
 
 interface TransactionFormProps {
@@ -63,7 +65,13 @@ const TransactionForm = ({onCloseForm, isEntryDrawerOpen, currentDay}: Transacti
     // カテゴリをステートで管理。デフォルトは支出用で。
     const [categories, setCategories] = useState(expenseCategories);
 
-    const { control, setValue, watch } = useForm({
+    const { 
+        control, 
+        setValue, 
+        watch, 
+        formState:{errors},
+        handleSubmit,
+    } = useForm({
         defaultValues: {
             type: "expense",
             date: currentDay,
@@ -71,6 +79,7 @@ const TransactionForm = ({onCloseForm, isEntryDrawerOpen, currentDay}: Transacti
             category: "",
             content: "",
         },
+        resolver: zodResolver(transactionSchema),
     });
     const incomeExpenseToggle = (type: IncomeExpense) => {
         // フィールドオブジェクトのvalueに値をセット→setValueを使う
@@ -93,6 +102,10 @@ const TransactionForm = ({onCloseForm, isEntryDrawerOpen, currentDay}: Transacti
     useEffect(() => {
         setValue("date", currentDay);
     }, [currentDay]);
+
+    const onSubmit = (data: any) => {
+
+    }   
 
     return (
         <Box
@@ -128,7 +141,7 @@ const TransactionForm = ({onCloseForm, isEntryDrawerOpen, currentDay}: Transacti
             </IconButton>
         </Box>
         {/* フォーム要素 */}
-        <Box component={"form"}>
+        <Box component={"form"} onSubmit={handleSubmit(onSubmit)}>
             <Stack spacing={2}>
             {/* 収支切り替えボタン */}
             <Controller 
@@ -168,6 +181,10 @@ const TransactionForm = ({onCloseForm, isEntryDrawerOpen, currentDay}: Transacti
                         InputLabelProps={{
                         shrink: true,
                         }}
+                        // errorsオブジェクトの中にdateが含まれていればtureになる
+                        error={!!errors.date}
+                        // エラー内容を表示
+                        helperText={errors.date?.message}
                     />
                 )}
             />
