@@ -8,7 +8,7 @@ export const transactionSchema = z.object({
     // 日付のバリデーションチェック。文字型で入力してほしいからstring、必須にしたいからmin(1)→「最低でも１は入力」
     date: z.string().min(1, {message: "日付は必須です。"}),
     // 金額はnumber型で。number型の場合、「1以上の数字を入力してね」
-    amount: z.number().min(1, {message: "金額は1円以上でn百合卯力してください。"}),
+    amount: z.number().min(1, {message: "金額は1円以上で入力してください。"}),
     // 内容
     content: z.string().min(1, {message: "内容を入力してください。"}).max(50, {message: "内容は50文字以内で入力してください。"}),
     //カテゴリ
