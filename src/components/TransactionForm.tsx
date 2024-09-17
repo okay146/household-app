@@ -203,8 +203,8 @@ const TransactionForm = ({onCloseForm, isEntryDrawerOpen, currentDay}: Transacti
                     label="カテゴリ" 
                     select 
                 >
-                    {categories.map((category) => (
-                        <MenuItem value={category.label}>
+                    {categories.map((category, index) => (
+                        <MenuItem value={category.label} key={index}>
                         <ListItemIcon>
                             {category.icon}
                         </ListItemIcon>
