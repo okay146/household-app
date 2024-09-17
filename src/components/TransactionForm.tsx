@@ -189,12 +189,15 @@ const TransactionForm = ({onCloseForm, isEntryDrawerOpen, currentDay}: Transacti
                 )}
             />
 
+
             {/* カテゴリ */}
             <Controller 
                 control={control}
                 name="category"
                 render={({field}) => (
                 <TextField 
+                    error={!!errors.category}
+                    helperText={errors.category?.message}
                     {...field} 
                     id="カテゴリ" 
                     label="カテゴリ" 
@@ -219,6 +222,8 @@ const TransactionForm = ({onCloseForm, isEntryDrawerOpen, currentDay}: Transacti
                 render={({field}) => {
                     return (
                         <TextField 
+                            error={!!errors.amount}
+                            helperText={errors.amount?.message}
                             label="金額" 
                             type="number" 
                             {...field}
@@ -238,6 +243,8 @@ const TransactionForm = ({onCloseForm, isEntryDrawerOpen, currentDay}: Transacti
                 name="content"
                 render={({field}) => (
                     <TextField 
+                        error={!!errors.content}
+                        helperText={errors.content?.message}
                         label="内容" 
                         type="text" 
                         {...field}
