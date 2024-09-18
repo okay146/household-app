@@ -12,7 +12,7 @@ import {
 import React, { useEffect, useState } from "react";
 import CloseIcon from "@mui/icons-material/Close"; // 閉じるボタン用のアイコン
 import FastfoodIcon from "@mui/icons-material/Fastfood"; //食事アイコン
-import { Controller, useForm } from "react-hook-form";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import {IncomeCategory, ExpenseCategory} from "../types/index";
 import HomeIcon from '@mui/icons-material/Home';
 import TrainIcon from '@mui/icons-material/Train';
@@ -25,13 +25,15 @@ import SavingsIcon from '@mui/icons-material/Savings';
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 import AccessibilityIcon from '@mui/icons-material/Accessibility';
 import { zodResolver } from "@hookform/resolvers/zod";
-import { transactionSchema } from "../validations/schema";
+import { Schema, transactionSchema } from "../validations/schema";
 
 
 interface TransactionFormProps {
     onCloseForm: () => void;
     isEntryDrawerOpen: boolean;
     currentDay: string;
+    onSaveTransaction: (transaction: Schema) => Promise<void>;
+
 }
 type IncomeExpense = "income" | "expense";
 
@@ -40,7 +42,8 @@ interface CategoryItem {
     icon: JSX.Element;
 }
 
-const TransactionForm = ({onCloseForm, isEntryDrawerOpen, currentDay}: TransactionFormProps) => {
+const TransactionForm = (
+    {onCloseForm, isEntryDrawerOpen, currentDay, onSaveTransaction}: TransactionFormProps) => {
     const formWidth = 320;
 
     // 支出用カテゴリ
@@ -71,7 +74,7 @@ const TransactionForm = ({onCloseForm, isEntryDrawerOpen, currentDay}: Transacti
         watch, 
         formState:{errors},
         handleSubmit,
-    } = useForm({
+    } = useForm<Schema>({
         defaultValues: {
             type: "expense",
             date: currentDay,
@@ -103,8 +106,10 @@ const TransactionForm = ({onCloseForm, isEntryDrawerOpen, currentDay}: Transacti
         setValue("date", currentDay);
     }, [currentDay]);
 
-    const onSubmit = (data: any) => {
-
+    const onSubmit: SubmitHandler<Schema> = (data) => {
+        console.log(data);
+        // FireStoreにデータを保存する
+        onSaveTransaction(data);
     }   
 
     return (
