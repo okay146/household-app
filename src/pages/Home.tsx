@@ -7,6 +7,7 @@ import TransactionForm from '../components/TransactionForm'
 import { Transaction } from '../types'
 import { format } from 'date-fns'
 import { Schema } from '../validations/schema'
+import MyForm from './Practice '
 
 interface HomeProps {
     monthlyTransactions: Transaction[],
@@ -37,6 +38,7 @@ const Home = ({monthlyTransactions, setCurrentMonth, onSaveTransaction}: HomePro
     }
 
     return (
+        <>
         <Box sx={{display: "flex"}}>
             {/* 左側コンテンツ */}
             <Box sx={{flexGrow:1}}>
@@ -63,6 +65,9 @@ const Home = ({monthlyTransactions, setCurrentMonth, onSaveTransaction}: HomePro
                 />
             </Box>
         </Box>
+
+        <MyForm />
+        </>
     )
 }
 
