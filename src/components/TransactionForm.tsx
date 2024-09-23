@@ -76,6 +76,7 @@ const TransactionForm = (
         watch, 
         formState:{errors},
         handleSubmit,
+        reset,
     } = useForm<Schema>({
         defaultValues: {
             type: "expense",
@@ -108,10 +109,13 @@ const TransactionForm = (
         setValue("date", currentDay);
     }, [currentDay]);
 
+    // 送信処理
     const onSubmit: SubmitHandler<Schema> = (data) => {
         console.log(data);
         // FireStoreにデータを保存する
         onSaveTransaction(data);
+        // 送信後フィールドを空にする
+        reset();
     }   
 
     return (
