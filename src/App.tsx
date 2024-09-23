@@ -29,10 +29,6 @@ function App() {
   console.log(currentMonth);
   format(currentMonth, "yyyy-MM");
 
-  // 選択されたデータを管理
-  // 何も選択されていない場合はnullを許容するためnullを初期値に指定
-  const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
-
 
   //初回レンダリングのみ、1回だけデータを取得したい。データの取得はエラーが起こるかもしれないからtry-catchで。
   useEffect(() => {
@@ -111,8 +107,6 @@ function App() {
                 monthlyTransactions={monthlyTransactions} 
                 setCurrentMonth={setCurrentMonth} 
                 onSaveTransaction={handleSaveTransaction}
-                setSelectedTransaction={setSelectedTransaction}
-                selectedTransaction={selectedTransaction}
               />}
             />
           <Route path="/report" element={<Report />} />

@@ -13,8 +13,6 @@ interface HomeProps {
     monthlyTransactions: Transaction[],
     setCurrentMonth: React.Dispatch<React.SetStateAction<Date>>,
     onSaveTransaction: (transaction: Schema) => Promise<void>;
-    setSelectedTransaction: React.Dispatch<React.SetStateAction<Transaction | null>>;
-    selectedTransaction: Transaction | null;
 }
 
 const Home = (
@@ -22,14 +20,16 @@ const Home = (
         monthlyTransactions, 
         setCurrentMonth, 
         onSaveTransaction,
-        setSelectedTransaction,
-        selectedTransaction,
     }: HomeProps) => {
 
     // currentDayの初期値に今日の日付を入れる
     // const today = new Date();のままで使うのではなく、formatで形式を決める！
     const today = format(new Date(), "yyyy-MM-dd");
     const [currentDay, setCurrentDay] = useState(today);
+
+    // 選択されたデータを管理
+    // 何も選択されていない場合はnullを許容するためnullを初期値に指定
+    const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
 
     // 選択した日付のデータのみ取得
     const dailyTransactions = monthlyTransactions.filter((transaction) => {
