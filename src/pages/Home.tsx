@@ -43,8 +43,15 @@ const Home = (
     }
     // フォームの開閉処理
     const handleAddTransactionForm = () => {
-        setSelectedTransaction(null);
-        setIsEntryDrawerOpen(!isEntryDrawerOpen);
+        // 取引内容が選択された場合、内容をリセット(開閉処理なし)
+        if(selectedTransaction) {
+            // 内容をリセット
+            setSelectedTransaction(null);
+        } else {
+            // 開閉
+            setIsEntryDrawerOpen(!isEntryDrawerOpen);
+        }
+
     }
 
     // 取引が選択された時の処理
