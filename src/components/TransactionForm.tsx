@@ -26,6 +26,7 @@ import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 import AccessibilityIcon from '@mui/icons-material/Accessibility';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Schema, transactionSchema } from "../validations/schema";
+import StorefrontIcon from '@mui/icons-material/Storefront';
 
 
 interface TransactionFormProps {
@@ -55,6 +56,7 @@ const TransactionForm = (
         {label: "娯楽", icon: <SportsTennisIcon fontSize="small" />},
         {label: "交通費", icon: <TrainIcon fontSize="small" />},
         {label: "病院", icon: <LocalHospitalIcon fontSize="small" />},
+        {label: "コンビニ", icon: <StorefrontIcon fontSize="small" />},
         {label: "その他", icon: <AccessibilityIcon fontSize="small" />},
     ];
 

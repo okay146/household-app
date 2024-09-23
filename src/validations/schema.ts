@@ -13,7 +13,7 @@ export const transactionSchema = z.object({
     content: z.string().min(1, {message: "内容を入力してください。"}).max(50, {message: "内容は50文字以内で入力してください。"}),
     //カテゴリ
     category: z.union([
-        z.enum(["食費", "日用品", "住居費", "交際費", "娯楽", "交通費", "病院", "その他"]),
+        z.enum(["食費", "日用品", "住居費", "交際費", "娯楽", "交通費", "病院", "コンビニ",  "その他"]),
         z.enum(["給与", "副収入", "お小遣い"]),
         z.literal(""), // 空文字が万が一送られた場合バリデーションチェックしたいから
     ]).refine((val) => val !== "", {message: "カテゴリを選択してください"}),
