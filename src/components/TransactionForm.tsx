@@ -138,10 +138,18 @@ const TransactionForm = (
             setValue("type", selectedTransaction.type);
             setValue("date", selectedTransaction.date);
             setValue("amount", selectedTransaction.amount);
-            setValue("content", selectedTransaction.content);
             setValue("category", selectedTransaction.category);
+            setValue("content", selectedTransaction.content);
+        } else {
+            reset({
+                type: "expense",
+                date: currentDay,
+                amount: 0,
+                category: "",
+                content: "",
+            })
         }
-    }, [selectedTransaction])
+    }, [selectedTransaction]);
 
 
     return (

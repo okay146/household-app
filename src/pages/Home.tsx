@@ -43,14 +43,15 @@ const Home = (
     }
     // フォームの開閉処理
     const handleAddTransactionForm = () => {
+        setSelectedTransaction(null);
         setIsEntryDrawerOpen(!isEntryDrawerOpen);
     }
 
     // 取引が選択された時の処理
     const handleSelectTransaction = (transaction: Transaction) => {
-        setIsEntryDrawerOpen(true);
         // 選択されたデータをステートで管理
         setSelectedTransaction(transaction);
+        setIsEntryDrawerOpen(true);
 
     }
     return (
