@@ -13,9 +13,18 @@ interface HomeProps {
     monthlyTransactions: Transaction[],
     setCurrentMonth: React.Dispatch<React.SetStateAction<Date>>,
     onSaveTransaction: (transaction: Schema) => Promise<void>;
+    setSelectedTransaction: React.Dispatch<React.SetStateAction<Transaction | null>>;
+    selectedTransaction: Transaction | null;
 }
 
-const Home = ({monthlyTransactions, setCurrentMonth, onSaveTransaction}: HomeProps) => {
+const Home = (
+    {
+        monthlyTransactions, 
+        setCurrentMonth, 
+        onSaveTransaction,
+        setSelectedTransaction,
+        selectedTransaction,
+    }: HomeProps) => {
 
     // currentDayの初期値に今日の日付を入れる
     // const today = new Date();のままで使うのではなく、formatで形式を決める！
@@ -40,6 +49,8 @@ const Home = ({monthlyTransactions, setCurrentMonth, onSaveTransaction}: HomePro
     // 取引が選択された時の処理
     const handleSelectTransaction = (transaction: Transaction) => {
         setIsEntryDrawerOpen(true);
+        // 選択されたデータをステートで管理
+        setSelectedTransaction(transaction);
 
     }
     return (
@@ -68,6 +79,7 @@ const Home = ({monthlyTransactions, setCurrentMonth, onSaveTransaction}: HomePro
                     onCloseForm={closeForm}
                     isEntryDrawerOpen={isEntryDrawerOpen}
                     onSaveTransaction={onSaveTransaction}
+                    selectedTransaction={selectedTransaction}
                 />
             </Box>
         </Box>

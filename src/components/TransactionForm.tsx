@@ -13,7 +13,7 @@ import React, { useEffect, useState } from "react";
 import CloseIcon from "@mui/icons-material/Close"; // 閉じるボタン用のアイコン
 import FastfoodIcon from "@mui/icons-material/Fastfood"; //食事アイコン
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import {IncomeCategory, ExpenseCategory} from "../types/index";
+import {IncomeCategory, ExpenseCategory, Transaction} from "../types/index";
 import HomeIcon from '@mui/icons-material/Home';
 import TrainIcon from '@mui/icons-material/Train';
 import Diversity3Icon from '@mui/icons-material/Diversity3';
@@ -28,13 +28,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Schema, transactionSchema } from "../validations/schema";
 import StorefrontIcon from '@mui/icons-material/Storefront';
 
-
 interface TransactionFormProps {
     onCloseForm: () => void;
     isEntryDrawerOpen: boolean;
     currentDay: string;
     onSaveTransaction: (transaction: Schema) => Promise<void>;
-
+    selectedTransaction: Transaction | null;
 }
 type IncomeExpense = "income" | "expense";
 
@@ -44,7 +43,13 @@ interface CategoryItem {
 }
 
 const TransactionForm = (
-    {onCloseForm, isEntryDrawerOpen, currentDay, onSaveTransaction}: TransactionFormProps) => {
+    {
+        onCloseForm, 
+        isEntryDrawerOpen, 
+        currentDay, 
+        onSaveTransaction, 
+        selectedTransaction
+    }: TransactionFormProps) => {
     const formWidth = 320;
 
     // 支出用カテゴリ
@@ -124,7 +129,20 @@ const TransactionForm = (
             category: "",
             content: "",
         });
-    }   
+    }  
+    
+    // 送信されたタイミングで処理を実装→useEffectを使用
+    useEffect(() => {
+        if(selectedTransaction) {
+            // 取引が選択された場合、
+            setValue("type", selectedTransaction.type);
+            setValue("date", selectedTransaction.date);
+            setValue("amount", selectedTransaction.amount);
+            setValue("content", selectedTransaction.content);
+            setValue("category", selectedTransaction.category);
+        }
+    }, [selectedTransaction])
+
 
     return (
         <Box
