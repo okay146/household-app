@@ -40,6 +40,8 @@ const Home = (
     const [isEntryDrawerOpen, setIsEntryDrawerOpen] = useState(false);
     const closeForm = () => {
         setIsEntryDrawerOpen(!isEntryDrawerOpen);
+        // 閉じるボタンを押した時点で内容をnullに
+        setSelectedTransaction(null);
     }
     // フォームの開閉処理
     const handleAddTransactionForm = () => {
