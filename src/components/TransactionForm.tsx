@@ -115,7 +115,14 @@ const TransactionForm = (
         // FireStoreにデータを保存する
         onSaveTransaction(data);
         // 送信後フィールドを空にする
-        reset();
+        // デフォルト値が「今日の日付」になっているから選択した日付に変更
+        reset({ 
+            type: "expense",
+            date: currentDay,
+            amount: 0,
+            category: "",
+            content: "",
+        });
     }   
 
     return (
