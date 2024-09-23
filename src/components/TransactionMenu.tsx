@@ -26,9 +26,10 @@ interface TransactionMenuProps {
     dailyTransactions: Transaction[];
     currentDay: string;
     onAddTransactionForm: () => void;
+    onSelectTransaction: (transaction: Transaction) => void;
 }
 const TransactionMenu = (
-    {dailyTransactions, currentDay, onAddTransactionForm }: TransactionMenuProps
+    {dailyTransactions, currentDay, onAddTransactionForm, onSelectTransaction }: TransactionMenuProps
 ) => {
     const menuDrawerWidth = 320;
     return (
@@ -74,12 +75,14 @@ const TransactionMenu = (
             <Stack spacing={2}>
                 {/* 選択した日付の取引情報が入っているdailyTransactionsをmap関数で展開 */}
                 {dailyTransactions.map((transaction) => (
-                    <ListItem disablePadding>
+                    <ListItem disablePadding key={transaction.id}>
                     <Card
                         sx={{
                         width: "100%",
                         backgroundColor: transaction.type === "income" ? (theme) => theme.palette.incomeColor.light : (theme) => theme.palette.expenseColor.light
                         }}
+                        // クリックしたら特定のtransaction情報を取得
+                        onClick={() => onSelectTransaction(transaction)}
                     >
                         <CardActionArea>
                         <CardContent>
