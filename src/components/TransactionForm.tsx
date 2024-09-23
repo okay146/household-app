@@ -91,6 +91,7 @@ const TransactionForm = (
         // フィールドオブジェクトのvalueに値をセット→setValueを使う
         // typeに対して値をセットしたいから引数にtypeを指定。
         setValue("type", type);
+        setValue("category", "");
     };
     // 保存ボタン切り替えに使用。収支タイプを監視
     const currentType = watch("type");
