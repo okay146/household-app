@@ -71,6 +71,18 @@ function App() {
       // Add a new document with a generated id.
       const docRef = await addDoc(collection(db, "Transactions"), transaction);
       console.log("Document written with ID: ", docRef.id);
+      
+      // データをすぐに反映させるためにステートで管理
+      const newTransaction = {
+        id: docRef.id,
+        // 他の情報はスプレッド構文で展開
+        ...transaction,
+      } as Transaction
+      // setTransactions([...transactions, newTransaction]);
+      // 上としたは同じ意味。下の形が推奨。直前の値を〜
+      setTransactions((prevTransaction) => [
+        ...prevTransaction, newTransaction
+      ])
     } catch(err) {
       if(isFireStoreError(err)) {
         console.error("firebaseのエラーは", err)
