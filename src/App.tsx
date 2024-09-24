@@ -98,7 +98,9 @@ function App() {
     try {
       // filestoreのデータを全て削除
       await deleteDoc(doc(db, "Transactions", transactionId));
-
+      // 削除ボタンを押された取引以外の取引情報を取得
+      const filterdTransactions = transactions.filter((transaction) => transaction.id !== transactionId);
+      setTransactions(filterdTransactions);
     } catch (error){
       // 通常のエラーか、Firestoreのエラーか判断
       if(isFireStoreError(error)) {
