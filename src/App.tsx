@@ -9,7 +9,7 @@ import { theme } from './theme/theme';
 import { ThemeProvider } from '@emotion/react';
 import { CssBaseline } from '@mui/material';
 import { Transaction } from './types/index';
-import { addDoc, collection, deleteDoc, doc, getDocs } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDocs, updateDoc } from "firebase/firestore";
 import { db } from "./firebase";
 import { format } from 'date-fns';
 import { formatMonth } from './utils/formatting';
@@ -114,6 +114,26 @@ function App() {
 
   }
 
+  // 更新処理
+  const handleUpdateTransaction = async(transaction: Schema, transactionId: string) => {
+    try {
+      // firestoreの更新処理
+      const docRef = doc(db, "Transactions", transactionId);
+
+      // Set the "capital" field of the city 'DC'
+      await updateDoc(docRef, transaction);
+    } catch (error) {
+      // 通常のエラーか、Firestoreのエラーか判断
+      if(isFireStoreError(error)) {
+        console.error("firebaseのエラーは", error)
+        console.error("firebaseのエラーは", error.message)
+        console.error("firebaseのエラーは", error.code)
+      } else {
+        console.error("一般的なエラーは", error)
+      }
+    }
+  }
+
   return (
     <ThemeProvider theme={theme}>
     {/* リセットCSSのようなもの */}
@@ -129,6 +149,7 @@ function App() {
                 setCurrentMonth={setCurrentMonth} 
                 onSaveTransaction={handleSaveTransaction}
                 onDeleteTransaction={handleDeleteTransaction}
+                onUpdateTransaction={handleUpdateTransaction}
               />}
             />
           <Route path="/report" element={<Report />} />

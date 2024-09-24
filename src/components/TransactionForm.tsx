@@ -35,7 +35,8 @@ interface TransactionFormProps {
     onSaveTransaction: (transaction: Schema) => Promise<void>;
     selectedTransaction: Transaction | null;
     onDeleteTransaction: (TransactionId: string) => Promise<void>;
-    setSelectedTransaction: React.Dispatch<React.SetStateAction<Transaction | null>>
+    setSelectedTransaction: React.Dispatch<React.SetStateAction<Transaction | null>>;
+    onUpdateTransaction: (transaction: Schema, transactionId: string) => Promise<void>;
 }
 type IncomeExpense = "income" | "expense";
 
@@ -53,6 +54,7 @@ const TransactionForm = (
         selectedTransaction,
         onDeleteTransaction,
         setSelectedTransaction,
+        onUpdateTransaction,
     }: TransactionFormProps) => {
     const formWidth = 320;
 
@@ -122,8 +124,25 @@ const TransactionForm = (
     // 送信処理
     const onSubmit: SubmitHandler<Schema> = (data) => {
         console.log(data);
-        // FireStoreにデータを保存する
-        onSaveTransaction(data);
+
+        // 更新処理→取引が選択されている場合に実装
+        if (selectedTransaction) {
+            onUpdateTransaction(data, selectedTransaction.id).then(() => {
+                // 非同期処理が完了した後に実装したいからthen
+                // console.log("更新しました。");
+                // setSelectedTransaction(null);
+            }).catch((error) => {
+                console.error(error);
+            });
+        } else {
+            // FireStoreにデータを保存する
+            onSaveTransaction(data).then(() => {
+                console.log("保存しました。");
+            }).catch((error) => {
+                console.error(error);
+            })
+        }
+
         // 送信後フィールドを空にする
         // デフォルト値が「今日の日付」になっているから選択した日付に変更
         reset({ 
