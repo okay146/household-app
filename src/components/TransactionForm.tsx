@@ -314,7 +314,7 @@ const TransactionForm = (
                 color={currentType === "expense" ? "error" : "primary"} 
                 fullWidth
             >
-                保存
+                {selectedTransaction ? "更新" : "保存"}
             </Button>
             {selectedTransaction && (
                 <>
