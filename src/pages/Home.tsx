@@ -17,6 +17,7 @@ interface HomeProps {
     onUpdateTransaction: (transaction: Schema, transactionId: string) => Promise<void>;
 }
 
+
 const Home = (
     {
         monthlyTransactions, 

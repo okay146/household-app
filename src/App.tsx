@@ -3,6 +3,7 @@ import './App.css';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import Report from './pages/Report';
+import Export from './pages/Export';
 import NoMatch from './pages/NoMatch';
 import AppLayout from './components/layout/AppLayout';
 import { theme } from './theme/theme';
@@ -153,6 +154,7 @@ function App() {
               />}
             />
           <Route path="/report" element={<Report />} />
+          <Route path="/export" element={<Export />} />
           <Route path="*" element={<NoMatch />} />
         </Route>
       </Routes>

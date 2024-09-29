@@ -5,6 +5,7 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import HomeIcon from '@mui/icons-material/Home';
 import EqualizerIcon from '@mui/icons-material/Equalizer';
 import { NavLink } from 'react-router-dom';
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
 
 type SidebarProps = {
     drawerWidth: number; 
@@ -26,6 +27,7 @@ const SideBar = (
     const MenuItems:menuItem[] = [
         {text: "Home", path: "/", icon: HomeIcon},
         {text: "Report", path: "/report", icon: EqualizerIcon},
+        {text: "Export", path: "/export", icon: FileDownloadIcon},
     ];
 
     const baseLinkStyle: CSSProperties = {
