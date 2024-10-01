@@ -19,5 +19,13 @@ export const transactionSchema = z.object({
     ]).refine((val) => val !== "", {message: "カテゴリを選択してください"}),
 });
 
+// 検索条件のバリデーション
+export const SearchFormSchema = z.object({
+    expenseType: z.string().min(0, { message: "必須項目です"}),
+    incomeType: z.string().min(0, { message: "必須項目です"}),
+    amount: z.number().min(1, {message: "金額は1円以上で入力してください。"}),
+
+});
+
 // スキーマに基づいたタイプスクリプトの型を生成
 export type Schema = z.infer<typeof transactionSchema>

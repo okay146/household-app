@@ -4,17 +4,25 @@ import { Accordion, AccordionActions, AccordionDetails, AccordionSummary, Button
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import ExportPdf from '../components/Export';
-import { watch } from 'fs';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { SearchFormSchema } from '../validations/schema';
 
 
 
 type SearchFormQuery = {
     onSearch: (query: string) => void;
-}
+};
+
+type FormData = {
+    amount: number;
+    amountComparison: string;
+    content: string;
+    expenseType?: string;  
+    incomeType?: string;    
+};
 
 const SearchForm = ({onSearch}: SearchFormQuery) => {
-    const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-
     const handleSearch = () => {
         if (selectedDate) {
             // 日付を文字列に変換して検索クエリとして使用
@@ -26,10 +34,28 @@ const SearchForm = ({onSearch}: SearchFormQuery) => {
         // }
     };
     // タイプ選択
-    const [selectType, setSelectType] = useState<string>(''); 
+    const [selectType, setSelectType] = useState<string>('all'); 
     const handleChangeType = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSelectType(event.target.value); // 選択された値をステートに保存
     };
+
+    // デフォルト設定
+    // 日付のデフォルト値（例として今日の日付を設定）
+    const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
+
+    // 支出カテゴリのデフォルト値
+    const [expenseCategory, setExpenseCategory] = useState<string>('食費');
+
+    // 収入カテゴリのデフォルト値
+    const [incomeCategory, setIncomeCategory] = useState<string>('給与');
+
+    // "以上"/"以下"のデフォルト値
+    const [amountComparison, setAmountComparison] = useState<string>('greater');
+
+    const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
+        resolver: zodResolver(SearchFormSchema),
+    });
+
 
     return (
         <>  
@@ -56,7 +82,18 @@ const SearchForm = ({onSearch}: SearchFormQuery) => {
                         <Stack 
                             direction="row"
                             marginTop="10px"
+                            sx={{ height: "60px"}}
                         >
+                            <FormControlLabel
+                                control={
+                                    <Radio 
+                                        value="all" 
+                                        checked={selectType === 'all'} 
+                                        onChange={handleChangeType} 
+                                    />
+                                }
+                                label="全て" 
+                            />
                             <FormControlLabel
                                 control={
                                     <Radio 
@@ -81,9 +118,17 @@ const SearchForm = ({onSearch}: SearchFormQuery) => {
                                 <TextField
                                     select
                                     name='expenseType'
-                                    sx={{ width: "16em", padding:"0"}}
+                                    sx={{ 
+                                        width: "16em", 
+                                        padding:"0",
+                                        height: "55px",  
+                                    }}
+                                    error={!!errors.expenseType}
+                                    helperText={errors.expenseType?.message}
                                     label="カテゴリ"
                                     required
+                                    value={expenseCategory}
+                                    onChange={(e) => setExpenseCategory(e.target.value)}
                                 >
                                     <MenuItem value="食費">食費</MenuItem>
                                     <MenuItem value="日用品">日用品</MenuItem>
@@ -100,9 +145,18 @@ const SearchForm = ({onSearch}: SearchFormQuery) => {
                                 <TextField
                                     select
                                     name='incomeType'
-                                    sx={{ width: "16em", padding:"0"}}
+                                    sx={{ 
+                                        width: "16em", 
+                                        padding:"0",
+                                        height: "55px",  
+                                        '& .MuiInputBase-root': {
+                                            height: "55px",  
+                                        },
+                                    }}
                                     label="カテゴリ"
                                     required
+                                    value={incomeCategory}
+                                    onChange={(e) => setIncomeCategory(e.target.value)}
                                 >
                                     <MenuItem value="給与">給与</MenuItem>
                                     <MenuItem value="副収入">副収入</MenuItem>
@@ -110,12 +164,26 @@ const SearchForm = ({onSearch}: SearchFormQuery) => {
                                 </TextField>
                             )}
                         </Stack>
-                        <Stack direction="row" alignItems="center">
+                        <Stack 
+                            direction="row" 
+                            alignItems="center"
+                            sx={{ height: "60px", marginTop: "10px"}}
+                        >
                             <TextField
-                                name="amount"
-                                sx={{ width: "16em", marginTop: "8px"}}
+                                // name="amount"
+                                sx={{ 
+                                    width: "16em", 
+                                    padding:"0",
+                                    height: "60px",  
+                                    '& .MuiInputBase-root': {
+                                        height: "55px",  
+                                    },
+                                }}
                                 label="金額"
                                 type='number'
+                                error={!!errors.amount}
+                                helperText={errors.amount?.message}
+                                {...register("amount")}
                             >
                                 金額
                             </TextField>
@@ -123,12 +191,29 @@ const SearchForm = ({onSearch}: SearchFormQuery) => {
                             <TextField
                                 name="amountComparison"
                                 select
-                                sx={{ width: "8em"}}
+                                sx={{ 
+                                    width: "8em", 
+                                    padding:"0",
+                                    height: "60px",  
+                                    '& .MuiInputBase-root': {
+                                        height: "55px",  
+                                    },
+                                }}
+                                value={amountComparison}
+                                onChange={(e) => setAmountComparison(e.target.value)}
+
                             >
                                 <MenuItem value="greater">以上</MenuItem>
                                 <MenuItem value="less">以下</MenuItem>
                             </TextField>
                         </Stack>
+                        <TextField
+                            name="content"
+                            label="内容"
+                            sx={{width: "30em", marginTop: "10px"}}
+                            multiline
+                            rows={2}
+                        />
                     </Stack>
                     <Stack
                         sx={{
@@ -154,6 +239,7 @@ const SearchForm = ({onSearch}: SearchFormQuery) => {
             </Accordion>
             <ExportPdf />
             <DataGrid 
+                rows={rows}
                 columns={columns}
                 checkboxSelection
                 hideFooter
@@ -162,6 +248,12 @@ const SearchForm = ({onSearch}: SearchFormQuery) => {
         </>
     )
 };
+
+
+const rows = [
+    { id: 1, date: '2024-09-28', type: '収入', category: '給料', amount: 50000, content: '9月の給料' },
+    { id: 2, date: '2024-09-29', type: '支出', category: '食費', amount: 3000, content: 'ランチ' },
+];
 
 const columns: GridColDef[] = [
     {
