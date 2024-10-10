@@ -152,7 +152,20 @@ const TransactionForm = (
             category: "",
             content: "",
         });
-    }  
+    };  
+
+    // 取引を選択解除した場合やカテゴリの選択肢が更新された時に処理を実行
+    useEffect(() => {
+        // 選択肢が更新されたか確認
+        if (selectedTransaction) {
+            // some関数は、条件式が正しければtrueを返す
+            const categoryExists = categories.some(
+                (category) => category.label === selectedTransaction.category 
+            );
+            setValue("category", categoryExists ? selectedTransaction.category : "");
+        }
+        
+    }, [selectedTransaction, categories])
     
     // 送信されたタイミングで処理を実装→useEffectを使用
     useEffect(() => {
@@ -161,7 +174,7 @@ const TransactionForm = (
             setValue("type", selectedTransaction.type);
             setValue("date", selectedTransaction.date);
             setValue("amount", selectedTransaction.amount);
-            setValue("category", selectedTransaction.category);
+            
             setValue("content", selectedTransaction.content);
         } else {
             reset({
