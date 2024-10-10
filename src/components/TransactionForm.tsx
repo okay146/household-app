@@ -130,7 +130,7 @@ const TransactionForm = (
             onUpdateTransaction(data, selectedTransaction.id).then(() => {
                 // 非同期処理が完了した後に実装したいからthen
                 // console.log("更新しました。");
-                // setSelectedTransaction(null);
+                setSelectedTransaction(null);
             }).catch((error) => {
                 console.error(error);
             });

@@ -120,9 +120,12 @@ function App() {
     try {
       // firestoreの更新処理
       const docRef = doc(db, "Transactions", transactionId);
-
       // Set the "capital" field of the city 'DC'
       await updateDoc(docRef, transaction);
+      // フロント更新
+      // 更新対象のidと一致している場合その取引内容を更新する
+      const updatedTransactions = transactions.map((t) => t.id === transactionId ? {...t, ...transaction} : t) as Transaction[];
+      setTransactions(updatedTransactions);
     } catch (error) {
       // 通常のエラーか、Firestoreのエラーか判断
       if(isFireStoreError(error)) {
