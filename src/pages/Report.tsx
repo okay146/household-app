@@ -1,6 +1,6 @@
 import { Grid, Paper } from '@mui/material';
 import { display, height } from '@mui/system';
-import React from 'react'
+import React from 'react';
 import MonthSelector from '../components/MonthSelector';
 import CategoryChart from '../components/CategoryChart';
 import TransactionTable from '../components/TransactionTable';

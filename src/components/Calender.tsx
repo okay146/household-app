@@ -9,7 +9,9 @@ import { formatCurrency } from '../utils/formatting';
 import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
 import { Palette } from '@mui/icons-material';
 import { useTheme } from '@mui/material';
-import { isSameMonth } from 'date-fns';
+import { isSameMonth } from "date-fns";
+import { format } from 'date-fns';
+
 
 
 interface CalendarProps {

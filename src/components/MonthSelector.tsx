@@ -1,8 +1,21 @@
-import React from 'react'
+import { Box, Button } from '@mui/material';
+import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
+import React from 'react';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
 
 const MonthSelector = () => {
     return (
-        <div>MonthSelector</div>
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <Box sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
+                <Button color={"error"} variant="contained">
+                    先月
+                </Button>
+                <DatePicker sx={{ mx: 2}} />
+                <Button color={"primary"} variant="contained">
+                    次月
+                </Button>
+            </Box>
+        </LocalizationProvider>
     )
 };
 
