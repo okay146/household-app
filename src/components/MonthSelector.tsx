@@ -11,6 +11,13 @@ interface MonthSelectorProps {
 }
 
 const MonthSelector = ({currentMonth, setCurrentMonth}: MonthSelectorProps) => {
+
+    const handleDateChange = (newDate: Date | null) => {
+        if(newDate) {
+            setCurrentMonth(newDate);
+        }
+    };
+
     const handlePreviousMonth = () => {
         // 先月は今月のマイナス１
         const previousMonth = addMonths(currentMonth, -1);
@@ -36,6 +43,7 @@ const MonthSelector = ({currentMonth, setCurrentMonth}: MonthSelectorProps) => {
                     先月
                 </Button>
                 <DatePicker 
+                    onChange={handleDateChange}
                     value={currentMonth}
                     label="年月を選択"
                     sx={{ mx: 2, backgroundColor: "white"}} 
