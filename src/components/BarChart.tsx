@@ -1,5 +1,5 @@
-import { display } from '@mui/system';
-import { plugins } from 'chart.js';
+import { display, useTheme } from '@mui/system';
+import { ChartData, plugins } from 'chart.js';
 import React from 'react'
 import {
     Chart as ChartJS,
@@ -28,6 +28,7 @@ interface BarChartProps {
 const BarChart = ({
     monthlyTransactions
 }: BarChartProps) => {
+    const theme = useTheme();
     const options = {
         maintainAspectRatio: false,
         responsive: true,
@@ -41,30 +42,22 @@ const BarChart = ({
 
     const dailyBalances = calculateDailyBalance(monthlyTransactions);
 
-    const dateLabels = Object.keys(dailyBalances);
+    const dateLabels = Object.keys(dailyBalances).sort();
     const expenseData = dateLabels.map((day) => dailyBalances[day].expense);
     const incomeData = dateLabels.map((day) => dailyBalances[day].income);
 
-    const labels = [
-        "2024-01-10",
-        "2024-01-11",
-        "2024-01-12",
-        "2024-01-13",
-        "2024-01-14",
-        "2024-01-15",
-    ];
-    const data = {
-        labels,
+    const data: ChartData<"bar"> = {
+        labels: dateLabels,
         datasets: [
             {
                 label: "支出",
-                data: [100, 200, 500, 1000, 250, 300],
-                backgroundColor: "rgba(255, 99, 132, 0.5)",
+                data: expenseData,
+                backgroundColor: theme.palette.expenseColor.light,
             },
             {
                 label: "収入",
-                data: [1000, 20, 570, 1000, 2900, 100],
-                backgroundColor: "rgba(53, 162, 235, 0.5)",
+                data: incomeData,
+                backgroundColor: theme.palette.incomeColor.light,
             },
         ],
     };
