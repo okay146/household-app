@@ -5,13 +5,15 @@ import MonthSelector from '../components/MonthSelector';
 import CategoryChart from '../components/CategoryChart';
 import TransactionTable from '../components/TransactionTable';
 import BarChart from '../components/BarChart';
+import { Transaction } from '../types';
 
 interface ReportProps {
     currentMonth: Date;
     setCurrentMonth: React.Dispatch<React.SetStateAction<Date>>;
+    monthlyTransactions: Transaction[];
 }
 
-const Report = ({currentMonth, setCurrentMonth}: ReportProps) => {
+const Report = ({currentMonth, setCurrentMonth, monthlyTransactions}: ReportProps) => {
     const commonPaperStyle = {
         height: { xs: "auto", md: "400px"},
         display: "flex",
@@ -30,7 +32,9 @@ const Report = ({currentMonth, setCurrentMonth}: ReportProps) => {
             </Grid>
             <Grid item xs={12} md={8}>
                 {/* 棒グラフ */}
-                <Paper sx={commonPaperStyle}><BarChart /></Paper>
+                <Paper sx={commonPaperStyle}>
+                    <BarChart monthlyTransactions={monthlyTransactions} />
+                </Paper>
             </Grid>
             <Grid item xs={12}>
                 {/* テーブル */}
