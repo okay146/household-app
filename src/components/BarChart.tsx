@@ -22,14 +22,12 @@ ChartJS.register(
 
 const BarChart = () => {
     const options = {
+        maintainAspectRatio: false,
         responsive: true,
         plugins: {
-            legend: {
-                position: "top" as const,
-            },
             title: {
                 display: true,
-                text: "Chart.js Bar Chart",
+                text: "日別収支",
             },
         },
     };
@@ -45,12 +43,12 @@ const BarChart = () => {
         labels,
         datasets: [
             {
-                label: "収入",
+                label: "支出",
                 data: [100, 200, 500, 1000, 250, 300],
                 backgroundColor: "rgba(255, 99, 132, 0.5)",
             },
             {
-                label: "支出",
+                label: "収入",
                 data: [1000, 20, 570, 1000, 2900, 100],
                 backgroundColor: "rgba(53, 162, 235, 0.5)",
             },

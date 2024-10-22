@@ -33,7 +33,12 @@ const drawerWidth = 240;
 
 
     return (
-        <Box sx={{ display: 'flex', bgcolor: (theme) => theme.palette.grey[100], minHeight: "100vh"}}>
+        <Box sx={{ 
+                display: { md: 'flex' }, 
+                bgcolor: (theme) => theme.palette.grey[100], 
+                minHeight: "100vh",
+            }}
+        >
         <CssBaseline />
         {/* ヘッダー */}
         <AppBar
