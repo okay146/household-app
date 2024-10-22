@@ -30,6 +30,9 @@ function App() {
   console.log(currentMonth);
   format(currentMonth, "yyyy-MM");
 
+  // ローディング中のアニメーション
+  const [isLoading, setIsLoading] = useState(true);
+
 
   //初回レンダリングのみ、1回だけデータを取得したい。データの取得はエラーが起こるかもしれないからtry-catchで。
   useEffect(() => {
@@ -55,6 +58,9 @@ function App() {
       } else {
         console.error("一般的なエラーは", error)
       }
+    } finally {
+      // tryでもcatchでもローディングは終了させたいから
+      setIsLoading(false);
     }
   }
   fetchTransactions();
@@ -163,6 +169,7 @@ function App() {
                 currentMonth={currentMonth}
                 setCurrentMonth={setCurrentMonth}
                 monthlyTransactions={monthlyTransactions}
+                isLoading={isLoading}
                 />
             } 
           />

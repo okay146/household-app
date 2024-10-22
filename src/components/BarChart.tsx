@@ -1,4 +1,4 @@
-import { display, useTheme } from '@mui/system';
+import { Box, display, useTheme } from '@mui/system';
 import { ChartData, plugins } from 'chart.js';
 import React from 'react'
 import {
@@ -13,6 +13,8 @@ import {
 import { Bar } from "react-chartjs-2";
 import { Transaction } from '../types';
 import { calculateDailyBalance } from '../utils/financeCalculations';
+import CircularProgress from "@mui/material/CircularProgress";
+import { Typography } from '@mui/material';
 ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -24,9 +26,10 @@ ChartJS.register(
 
 interface BarChartProps {
     monthlyTransactions: Transaction[];
+    isLoading: boolean;
 }
 const BarChart = ({
-    monthlyTransactions
+    monthlyTransactions, isLoading
 }: BarChartProps) => {
     const theme = useTheme();
     const options = {
@@ -63,7 +66,20 @@ const BarChart = ({
     };
 
     return (
-        <Bar options={options} data={data} />
+        <Box sx={{
+            flexGrow: 1, 
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+        }}>
+            {isLoading ? (
+                <CircularProgress />
+            ): monthlyTransactions.length > 0 ? (
+                <Bar options={options} data={data} />
+            ): (
+                <Typography>データがありません</Typography>
+            )}
+        </Box>
     )
 };
 
