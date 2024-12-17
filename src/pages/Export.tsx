@@ -1,5 +1,6 @@
 import React from 'react';
 import SearchForm from '../components/SearchForm';
+import Test from '../components/Test';
 
 
 const Export = () => {
@@ -9,6 +10,7 @@ const Export = () => {
     return (
         <>
             <SearchForm onSearch={handleSearch} />
+            <Test />
         </>
     )
 }

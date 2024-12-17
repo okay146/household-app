@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import DateCalendar from '../components/common/DateCalendar';
 import { Accordion, AccordionActions, AccordionDetails, AccordionSummary, Button, FormControlLabel, MenuItem, Radio, Stack, TextField, Typography } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridRowSelectionModel } from '@mui/x-data-grid';
 import ExportPdf from '../components/Export';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -55,6 +55,34 @@ const SearchForm = ({onSearch}: SearchFormQuery) => {
     const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
         resolver: zodResolver(SearchFormSchema),
     });
+
+    
+    const [rows, setRows] = useState(dummydata);
+    const [selectedRowIds, setSelectedRowIds] = useState<GridRowSelectionModel>([]);
+
+    const handleMoveUp = () => {
+        if (selectedRowIds.length !== 1) return; // 1行のみが選択されたときに実行
+        const rowIndex = rows.findIndex(row => row.id === selectedRowIds[0]);
+        if (rowIndex > 0) {
+            const newRows = [...rows];
+            const temp = newRows[rowIndex];
+            newRows[rowIndex] = newRows[rowIndex - 1];
+            newRows[rowIndex - 1] = temp;
+            setRows(newRows);
+        }
+    };
+
+    const handleMoveDown = () => {
+        if (selectedRowIds.length !== 1) return; // 1行のみが選択されたときに実行
+        const rowIndex = rows.findIndex(row => row.id === selectedRowIds[0]);
+        if (rowIndex < rows.length - 1) {
+            const newRows = [...rows];
+            const temp = newRows[rowIndex];
+            newRows[rowIndex] = newRows[rowIndex + 1];
+            newRows[rowIndex + 1] = temp;
+            setRows(newRows);
+        }
+    };
 
 
     return (
@@ -238,21 +266,28 @@ const SearchForm = ({onSearch}: SearchFormQuery) => {
                 </AccordionActions>
             </Accordion>
             <ExportPdf />
+            <Stack direction="row">
+                <Button variant="contained" sx={{width:"100px"}} onClick={handleMoveUp}>⇧</Button>
+                <Button variant="contained" sx={{width:"100px", marginLeft: "10px"}} onClick={handleMoveDown}>⇩</Button>
+            </Stack>
             <DataGrid 
                 rows={rows}
                 columns={columns}
                 checkboxSelection
                 hideFooter
                 sx={{ height: "400px"}}
+                onRowSelectionModelChange={(newSelection) => setSelectedRowIds(newSelection as GridRowSelectionModel)}
             />
         </>
     )
 };
 
 
-const rows = [
+const dummydata = [
     { id: 1, date: '2024-09-28', type: '収入', category: '給料', amount: 50000, content: '9月の給料' },
     { id: 2, date: '2024-09-29', type: '支出', category: '食費', amount: 3000, content: 'ランチ' },
+    { id: 3, date: '2024-11-10', type: '支出', category: '生活費', amount: 200, content: '買い物' },
+    { id: 4, date: '2024-09-31', type: '支出', category: '食費', amount: 1000, content: 'おやつ' },
 ];
 
 const columns: GridColDef[] = [
@@ -284,3 +319,5 @@ const columns: GridColDef[] = [
 ]
 
 export default SearchForm;
+
+
